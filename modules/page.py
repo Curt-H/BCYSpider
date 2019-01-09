@@ -1,11 +1,6 @@
-from bcy_model import Post, Coser
-import requests
-import os
-from pyquery import PyQuery as Pq
-from html import unescape
-from utils import log
-from time import sleep
-import json
+"""
+This mod contains all the tools for caching pages and loading pages' content
+"""
 
 
 def cached_url(url, filename):
@@ -50,12 +45,13 @@ def save_pics(post_model, index, all):
         path = os.path.join(folder, fname)
 
         r = requests.get(u)
+
         content = r.content
         with open(path, 'wb') as f:
             f.write(content)
         sleep(1)
         log(f'下载POST<{m.post_id}>中......\n'
-            f'第{i+1}/{pic_nums}图片成功\n'
+            f'第{i + 1}/{pic_nums}图片成功\n'
             f'URL:{u}\n'
             f'处理的是第{ix}/{a}个POST')
 
