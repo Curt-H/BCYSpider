@@ -5,6 +5,7 @@ import requests
 import os
 
 from utils import log
+from hashlib import sha256
 
 
 def get_content(url):
@@ -14,7 +15,7 @@ def get_content(url):
     :return: 返回网页页面的HTML代码(coding: utf-8)
     """
     u = url
-    fn = u
+    fn = sha256(u.encode()).hexdigest() + '.tmp'
     folder = 'data\\cache'
 
     # Check if the page cached
@@ -24,30 +25,31 @@ def get_content(url):
             s = f.read()
             return s
     else:
-        r = requests.get(u)
-        r.encoding = 'utf-8'  # must give a coding format, or it will be error
-        content = r.text
-        with open(path, 'w', encoding='utf-8') as f:
-            f.write(content)
-            return content
+        content = cache_url(u, fn)
+        return content
 
 
-def cache_url(url):
+def cache_url(url, filename):
     """
-
+    Cache the url content
     :param url:
-    :return:
+    :param filename:
+    :return: url content as string
     """
     u = url
-    fn = url
+    fn = filename
 
     # Check if exists the cache folder, if not create it
     folder = 'bcy\\cache'
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    # Loading page
-    path = os.path.join(folder, fn)
+    r = requests.get(u)
+    r.encoding = 'utf-8'  # must give a coding format, or it will be error
+    content = r.text
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(content)
+        return content
 
 # def save_pics(post_model, index, all):
 #     m = post_model
