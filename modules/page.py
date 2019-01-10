@@ -44,11 +44,15 @@ def cache_url(url, filename):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
+    # get content from url and cache them
+    path = '\\'.join([folder, fn])
+
     r = requests.get(u)
     r.encoding = 'utf-8'  # must give a coding format, or it will be error
     content = r.text
     with open(path, 'w', encoding='utf-8') as f:
         f.write(content)
+        log(f'cached content in {path}')
         return content
 
 # def save_pics(post_model, index, all):
