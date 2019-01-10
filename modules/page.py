@@ -40,7 +40,7 @@ def cache_url(url, filename):
     fn = filename
 
     # Check if exists the cache folder, if not create it
-    folder = 'bcy\\cache'
+    folder = 'data\\cache'
     if not os.path.exists(folder):
         os.makedirs(folder)
 
