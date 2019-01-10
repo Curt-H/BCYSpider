@@ -15,7 +15,7 @@ def get_content(url):
     """
     u = url
     fn = u
-    folder = 'bcy\\cache'
+    folder = 'data\\cache'
 
     # Check if the page cached
     path = os.path.join(folder, fn)
@@ -26,7 +26,6 @@ def get_content(url):
     else:
         r = requests.get(u)
         r.encoding = 'utf-8'  # must give a coding format, or it will be error
-
         content = r.text
         with open(path, 'w', encoding='utf-8') as f:
             f.write(content)

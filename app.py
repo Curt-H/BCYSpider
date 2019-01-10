@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from utils import log
-from modules.page import cached_url
+from modules import page
 
 if __name__ == '__main__':
     log('Start')
-    r = cached_url('https://www.baidu.com', 'test.txt')
-
+    r = page.get_content('https://www.baidu.com')
     log(r)
