@@ -5,5 +5,5 @@ from modules import page
 
 if __name__ == '__main__':
     log('Start')
-    r = page.get_content('https://www.baidu.com')
+    r = page.get_content('https://www.bgztech.com')
     log(r)
