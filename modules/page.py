@@ -15,7 +15,7 @@ def get_content(url):
     :return: 返回网页页面的HTML代码(coding: utf-8)
     """
     u = url
-    fn = sha256(u.encode()).hexdigest() + '.tmp'
+    fn = sha256(u.encode()).hexdigest() + '.html'
     folder = 'data\\cache'
 
     # Check if the page cached
@@ -23,6 +23,7 @@ def get_content(url):
     if os.path.exists(path):
         with open(path, 'r', encoding='utf-8') as f:
             s = f.read()
+            log('Find Cache')
             return s
     else:
         content = cache_url(u, fn)
