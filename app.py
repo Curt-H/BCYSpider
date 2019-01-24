@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from utils import log
-from modules import page, login
+from modules import cache, login
 from requests import *
 
 if __name__ == '__main__':
