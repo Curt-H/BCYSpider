@@ -21,3 +21,18 @@ def log(*args, **kwargs):
         # 将log的内容写到文件里, 与之前的print分开是为了避免写文件太慢影响print
         print(f'{formatted}', file=f)
         print(*args, **kwargs, file=f)
+
+
+def load_str(filename):
+    fn = filename
+    with open(fn, 'r', encoding='utf-8') as f:
+        r = f.read()
+    return r
+
+
+def dump_str(filename, content):
+    fn = filename
+    c = content
+    with open(fn, 'w', encoding='utf-8') as f:
+        f.write(c)
+    return 0
