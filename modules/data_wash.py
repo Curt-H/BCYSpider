@@ -8,4 +8,5 @@ def get_posts_list(coser_id):
     url = generate_coser_url(c)
     content = get_content(url)
 
-    
+    html = pq(content)
+    print(html)
