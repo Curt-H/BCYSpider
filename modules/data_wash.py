@@ -2,6 +2,7 @@ from pyquery import PyQuery as pq
 from modules.cache import get_content
 from modules import generate_coser_url
 from utils import log
+import json
 
 
 def get_posts_list(coser_id):
@@ -17,12 +18,20 @@ def get_posts_list(coser_id):
         if sc.text().find('JSON.parse') > 0:
             log(sc.text())
             plist = get_posts(sc.text())
-            log(plist)
+            # log(plist)
 
 
 def get_posts(content):
     c = content
-    delr = c.find('("')
-    c = c[:delr]
+    dell = c.find('("') + 2
+    delr = c.find('")')
+    c = c[dell:delr]
+    log(c)
+    c = c.replace('\\"', '\"')
+    log(c)
+    obj = json.loads(c)
 
-
+    for k in obj['post_data']['list']:
+        log(k)
+        log(k['since'])
+    return obj
