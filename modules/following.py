@@ -10,4 +10,4 @@ def get_following_list(user_id=1015748):
     ui = user_id
     url = f'https://bcy.net/u/{ui}/following'
     content = get_content(url)
-    log(content)
+    # log(content)
