@@ -11,3 +11,13 @@ def generate_headers():
         'Cookie':     cookies
     }
     return headers
+
+
+def generate_coser_url(coser_id):
+    """
+    generate coser homepage url with coser id input
+    :param coser_id: string
+    :return: url: string
+    """
+    c = coser_id
+    return f'https://bcy.net/u/{c}/post'
