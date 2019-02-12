@@ -1,6 +1,7 @@
 from pyquery import PyQuery as pq
 from modules.cache import get_content
-from modules import generate_coser_url
+from modules import generate_coser_url, generate_post_url
+from model.posts import Post
 from utils import log
 import json
 
@@ -23,15 +24,29 @@ def get_posts_list(coser_id):
 
 def get_posts(content):
     c = content
+    posts = list()
+
+    # get the json string which contains posts information
     dell = c.find('("') + 2
     delr = c.find('")')
     c = c[dell:delr]
-    log(c)
+    # remove the transfer symbol
     c = c.replace('\\"', '\"')
-    log(c)
-    obj = json.loads(c)
+    log(f'Get json string\n{c}')
+    posts_info = json.loads(c)
 
-    for k in obj['post_data']['list']:
-        log(k)
-        log(k['since'])
-    return obj
+    for k in posts_info['post_data']['list']:
+        data = dict(
+            id=k['since'],
+            url=generate_post_url(k['since']),
+            coser=k['item_detail']['uname'],
+            cid=k['item_detail']['uid'],
+            description=k['item_detail']['plain'],
+        )
+
+        post = Post(data)
+        posts.append(post)
+        log(post)
+
+    log(len(posts))
+    return posts_info
