@@ -20,4 +20,4 @@ def generate_coser_url(coser_id):
     :return: url: string
     """
     c = coser_id
-    return f'https://bcy.net/u/{c}/post'
+    return f'https://bcy.net/u/{c}/post/?p=1'
