@@ -3,6 +3,7 @@ from modules.cache import get_content
 from modules import generate_coser_url, generate_post_url
 from model.posts import Post
 from utils import log
+from html import unescape
 import json
 
 
@@ -48,19 +49,25 @@ def get_posts_from_json(content):
     delr = c.find('")')
     c = c[dell:delr]
 
-    # remove the transfer symbol
+    # remove the escape characters
     c = c.replace('\\"', '\"')
     log(f'Get json string\n{c}')
     posts_info = json.loads(c)
 
     # posts_info['post_data']['list'] contains all posts list
     for k in posts_info['post_data']['list']:
+        description = k['item_detail']['plain']
+        # Get description and remove escape characters
+        description = description.replace('\\u002F', '/')
+        # Change html escape characters
+        description = unescape(description)
+
         data = dict(
             id=k['since'],
             url=generate_post_url(k['since']),
             coser=k['item_detail']['uname'],
             cid=k['item_detail']['uid'],
-            description=k['item_detail']['plain'],
+            description=description,
         )
 
         post = Post(data)
