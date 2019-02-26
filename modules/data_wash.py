@@ -7,22 +7,39 @@ import json
 
 
 def get_posts_list(coser_id):
+    """
+    wash the coser's all post page and
+    split the posts information out
+    :param coser_id: STRING
+    :return: LIST of post objectives
+    """
+    plist = list()
     c = coser_id
     url = generate_coser_url(c)
     content = get_content(url)
 
+    # initialize the PyQuery object
     html = pq(content)
+    # Get the content inside <script> labels
     script = html('script')
     log(type(script))
+
+    # check the labels to find the label contains JSON content
     for s in script:
         sc = pq(s)
         if sc.text().find('JSON.parse') > 0:
             log(sc.text())
-            plist = get_posts(sc.text())
-            # log(plist)
+            plist += get_posts_from_json(sc.text())
+
+    return plist
 
 
-def get_posts(content):
+def get_posts_from_json(content):
+    """
+    
+    :param content:
+    :return:
+    """
     c = content
     posts = list()
 
