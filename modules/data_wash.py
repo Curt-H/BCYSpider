@@ -36,7 +36,7 @@ def get_posts_list(coser_id):
 
 def get_posts_from_json(content):
     """
-    
+
     :param content:
     :return:
     """
@@ -47,11 +47,13 @@ def get_posts_from_json(content):
     dell = c.find('("') + 2
     delr = c.find('")')
     c = c[dell:delr]
+
     # remove the transfer symbol
     c = c.replace('\\"', '\"')
     log(f'Get json string\n{c}')
     posts_info = json.loads(c)
 
+    # posts_info['post_data']['list'] contains all posts list
     for k in posts_info['post_data']['list']:
         data = dict(
             id=k['since'],
