@@ -51,7 +51,7 @@ def get_posts_from_json(content):
 
     # remove the escape characters
     c = c.replace('\\"', '\"')
-    log(f'Get json string\n{c}')
+    # log(f'Get json string\n{c}')
     posts_info = json.loads(c)
 
     # posts_info['post_data']['list'] contains all posts list
@@ -72,7 +72,7 @@ def get_posts_from_json(content):
 
         post = Post(data)
         posts.append(post)
-        log(post)
+        # log(post)
 
     log(len(posts))
     return posts
@@ -88,3 +88,27 @@ def save_pics_from_each_post(postlist, sleeptime=3):
 
     for p in pl:
         log(p.url)
+        content = get_content(p.url)
+        get_pics_from_json(content)
+
+
+def get_pics_from_json(content):
+    """
+
+    :param content:
+    :return:
+    """
+    c = content
+    posts = list()
+
+    # get the json string which contains posts information
+    dell = c.find('("') + 2
+    delr = c.find('")')
+    c = c[dell:delr]
+
+    # remove the escape characters
+    c = c.replace('\\"', '\"')
+    c = c.replace('\\\\u002F', '/')
+    log(f'Get json string\n{c}')
+    posts_info = json.loads(c)
+    # for
