@@ -75,4 +75,16 @@ def get_posts_from_json(content):
         log(post)
 
     log(len(posts))
-    return posts_info
+    return posts
+
+
+def save_pics_from_each_post(postlist, sleeptime=3):
+    """
+
+    :param postlist: list, contains all coser posts obj
+    :return: state code
+    """
+    pl = postlist
+
+    for p in pl:
+        log(p.url)
