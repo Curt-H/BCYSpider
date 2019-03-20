@@ -108,7 +108,13 @@ def get_pics_from_json(content):
 
     # remove the escape characters
     c = c.replace('\\"', '\"')
+    # remove unicode char
     c = c.replace('\\\\u002F', '/')
+    c = c.replace('\\\\u003F', '\\')
+    # c = c.replace('\\\\u003F', '\\')
     log(f'Get json string\n{c}')
     posts_info = json.loads(c)
-    # for
+    pics = posts_info['detail']['post_data']['multi']
+    log(posts_info['detail']['post_data']['multi'])
+    for p in pics:
+        log(p['original_path'])
