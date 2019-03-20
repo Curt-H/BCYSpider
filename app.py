@@ -15,3 +15,4 @@ if __name__ == '__main__':
     # get_following_list()
     post_list = get_posts_list('446923')
     save_pics_from_each_post(post_list)
+

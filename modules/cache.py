@@ -27,6 +27,7 @@ def get_content(url):
             return s
     else:
         content = cache_url(u, fn)
+        log(content)
         return content
 
 

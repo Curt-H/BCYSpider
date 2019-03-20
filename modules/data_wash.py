@@ -24,6 +24,16 @@ def get_posts_list(coser_id):
     # initialize the PyQuery object
     html = pq(content)
     # Get the content inside <script> labels
+    
+    log(f'[{c}]-[{url}]')
+    # create PQ object
+    html = pq(content)
+    title = html('title')
+    log(title)
+
+    if title.text() == '半次元 banciyuan - ACG爱好者社区':
+        log("No more pages")
+        return 0
     script = html('script')
     log(type(script))
 
@@ -32,6 +42,7 @@ def get_posts_list(coser_id):
         sc = pq(s)
         if sc.text().find('JSON.parse') > 0:
             log(sc.text())
+
             plist += get_posts_from_json(sc.text())
 
     return plist
