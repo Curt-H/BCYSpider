@@ -1,5 +1,7 @@
+import time
+
 from pyquery import PyQuery as pq
-from modules.cache import get_content
+from modules.cache import get_content, cache_pic
 from modules import generate_coser_url, generate_post_url
 from model.posts import Post
 from utils import log
@@ -117,5 +119,10 @@ def get_pics_from_json(content, post_id):
     pics = posts_info['detail']['post_data']['multi']
     log(posts_info['detail']['post_data']['multi'])
     for i, p in enumerate(pics):
+        url = p['original_path']
         log(p['original_path'])
+        cache_pic(url, pid, i)
+        log("cached pic!")
+        time.sleep(1)
+
     return 0
