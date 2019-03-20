@@ -94,9 +94,9 @@ def save_pics_from_each_post(postlist, sleeptime=3):
 
 def get_pics_from_json(content):
     """
-
-    :param content:
-    :return:
+    parse content and return the pics list
+    :param content: STRING html content of post page
+    :return: LIST contains the pics of post
     """
     c = content
     posts = list()
@@ -118,3 +118,4 @@ def get_pics_from_json(content):
     log(posts_info['detail']['post_data']['multi'])
     for p in pics:
         log(p['original_path'])
+    return 0
