@@ -56,6 +56,31 @@ def cache_url(url, filename):
         log(f'cached content in {path}')
         return content
 
+
+def cache_pic(url, post_id, pic_index):
+    pid = post_id
+    index = pic_index + 1
+    # get the filename tail
+    u = url
+    tail = u.split('.')[-1]
+
+    # combine all to generate the filename
+    filename = f"{pid}_{index}.{tail}"
+
+    # Check if exists the cache folder, if not create it
+    folder = f'data\\{pid}'
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    # get content from url and cache them
+    path = '\\'.join([folder, filename])
+
+    r = requests.get(u)
+    content = r.content
+    with open(path, 'wb') as f:
+        f.write(content)
+        return 0
+
 # def save_pics(post_model, index, all):
 #     m = post_model
 #     ix = index
