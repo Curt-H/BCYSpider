@@ -1,7 +1,7 @@
 """
 this module is design to dealing with following coser management
 """
-from modules.cache import get_content
+# from modules.cache import get_content
 
 
 # def get_following_list(user_id=1015748):
