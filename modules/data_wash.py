@@ -23,13 +23,12 @@ def get_posts_list(coser_id):
 
     # initialize the PyQuery object
     html = pq(content)
-    # Get the content inside <script> labels
-    
     log(f'[{c}]-[{url}]')
     # create PQ object
-    html = pq(content)
     title = html('title')
     log(title)
+
+    # Get the content inside <script> labels
 
     if title.text() == '半次元 banciyuan - ACG爱好者社区':
         log("No more pages")
@@ -95,17 +94,20 @@ def save_pics_from_each_post(postlist, sleeptime=3):
     """
 
     :param postlist: list, contains all coser posts obj
+    :param sleeptime: num, the sleep time between two download
     :return: state code
     """
+    down = input("Start download?\n")
+
     pl = postlist
 
     for p in pl:
         log(p.url)
         content = get_content(p.url)
-        get_pics_from_json(content, p.id)
+        get_pics_from_json(content, p.id, dev=down)
 
 
-def get_pics_from_json(content, post_id):
+def get_pics_from_json(content, post_id, dev="n"):
     """
     parse content and return the pics list
     :param content: STRING html content of post page
@@ -126,6 +128,10 @@ def get_pics_from_json(content, post_id):
     c = c.replace('\\\\u003F', '\\')
     # c = c.replace('\\\\u003F', '\\')
     log(f'Get json string\n{c}')
+
+    if dev != 'y':
+        return 0
+
     posts_info = json.loads(c)
     pics = posts_info['detail']['post_data']['multi']
     log(posts_info['detail']['post_data']['multi'])
