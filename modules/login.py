@@ -1,5 +1,4 @@
 import requests
-import json
 
 from modules import generate_headers
 from utils import log
