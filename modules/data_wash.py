@@ -97,6 +97,7 @@ def save_pics_from_each_post(postlist, sleeptime=3):
     :param sleeptime: num, the sleep time between two download
     :return: state code
     """
+    # todo: remember to remove
     down = input("Start download?\n")
 
     pl = postlist
@@ -129,6 +130,7 @@ def get_pics_from_json(content, post_id, dev="n"):
     # c = c.replace('\\\\u003F', '\\')
     log(f'Get json string\n{c}')
 
+    # todo: remember to remove
     if dev != 'y':
         return 0
 
