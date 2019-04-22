@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from utils import log
-from modules import cache, login
-from modules.following import get_following_list
+# from modules import cache, login
+# from modules.following import get_following_list
 from modules.data_wash import get_posts_list, save_pics_from_each_post
-from requests import *
+# from requests import *
 
 if __name__ == '__main__':
     log('Start')

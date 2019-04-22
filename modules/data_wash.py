@@ -96,18 +96,15 @@ def save_pics_from_each_post(postlist, sleeptime=3):
     :param sleeptime: num, the sleep time between two download
     :return: state code
     """
-    # todo: remember to remove
-    down = input("Start download?\n")
-
     pl = postlist
 
     for p in pl:
         log(p.url)
         content = get_content(p.url)
-        get_pics_from_json(content, p.id, dev=down, sleeptime=sleeptime)
+        get_pics_from_json(content, p.id, sleeptime=sleeptime)
 
 
-def get_pics_from_json(content, post_id, dev="n", sleeptime=1):
+def get_pics_from_json(content, post_id, dev="y", sleeptime=1):
     """
         parse content and return the pics list
     :param content: STRING html content of post page
@@ -133,17 +130,19 @@ def get_pics_from_json(content, post_id, dev="n", sleeptime=1):
     log(f'Get json string\n{c}')
 
     # todo: remember to remove
-    if dev != 'y':
-        return 0
 
+    # parse post string to get pics info
     posts_info = json.loads(c)
     pics = posts_info['detail']['post_data']['multi']
     log(posts_info['detail']['post_data']['multi'])
+
+    # collect pics info and download it
     for i, p in enumerate(pics):
         url = p['original_path']
         log(p['original_path'])
-        cache_pic(url, pid, i)
-        log("cached pic!")
-        time.sleep(sleeptime)
+        if dev == 'n':
+            cache_pic(url, pid, i)
+            log("cached pic!")
+            time.sleep(sleeptime)
 
     return 0
