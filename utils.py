@@ -15,12 +15,16 @@ def log(*args, **kwargs):
 
     with open('log.gua.txt', 'a', encoding='utf-8') as f:
         # 时间和log内容分开, 并且加上分隔符号
-        print(f'{formatted}')
+        print(f'\n{formatted}')
+        print('-' * 25)
         print(*args, **kwargs)
+        print('-' * 25)
 
         # 将log的内容写到文件里, 与之前的print分开是为了避免写文件太慢影响print
-        print(f'{formatted}', file=f)
+        print(f'\n{formatted}', file=f)
+        print('-' * 25, file=f)
         print(*args, **kwargs, file=f)
+        print('-' * 25, file=f)
 
 
 def load_str(filename):
