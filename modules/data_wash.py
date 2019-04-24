@@ -11,8 +11,7 @@ import json
 
 def get_posts_list(coser_id):
     """
-    wash the coser's all post page and
-    split the posts information out
+    Collect one COSER's all posts page obj
     :param coser_id: STRING
     :return: LIST of post objectives
     """
@@ -23,13 +22,12 @@ def get_posts_list(coser_id):
 
     # initialize the PyQuery object
     html = pq(content)
-    # Get the content inside <script> labels
-    
     log(f'[{c}]-[{url}]')
     # create PQ object
-    html = pq(content)
     title = html('title')
-    log(title)
+    log(f'coser post title:\n{title}')
+
+    # Get the content inside <script> labels
 
     if title.text() == '半次元 banciyuan - ACG爱好者社区':
         log("No more pages")
@@ -95,6 +93,7 @@ def save_pics_from_each_post(postlist, sleeptime=3):
     """
 
     :param postlist: list, contains all coser posts obj
+    :param sleeptime: num, the sleep time between two download
     :return: state code
     """
     pl = postlist
@@ -102,13 +101,16 @@ def save_pics_from_each_post(postlist, sleeptime=3):
     for p in pl:
         log(p.url)
         content = get_content(p.url)
-        get_pics_from_json(content, p.id)
+        get_pics_from_json(content, p.id, sleeptime=sleeptime)
 
 
-def get_pics_from_json(content, post_id):
+def get_pics_from_json(content, post_id, dev="y", sleeptime=1):
     """
-    parse content and return the pics list
+        parse content and return the pics list
     :param content: STRING html content of post page
+    :param post_id: post id
+    :param dev: dev mode switch
+    :param sleeptime: num, sleep time between two individual download
     :return: LIST contains the pics of post
     """
     c = content
@@ -126,14 +128,21 @@ def get_pics_from_json(content, post_id):
     c = c.replace('\\\\u003F', '\\')
     # c = c.replace('\\\\u003F', '\\')
     log(f'Get json string\n{c}')
+
+    # todo: remember to remove
+
+    # parse post string to get pics info
     posts_info = json.loads(c)
     pics = posts_info['detail']['post_data']['multi']
     log(posts_info['detail']['post_data']['multi'])
+
+    # collect pics info and download it
     for i, p in enumerate(pics):
         url = p['original_path']
         log(p['original_path'])
-        cache_pic(url, pid, i)
-        log("cached pic!")
-        time.sleep(1)
+        if dev == 'n':
+            cache_pic(url, pid, i)
+            log("cached pic!")
+            time.sleep(sleeptime)
 
     return 0
