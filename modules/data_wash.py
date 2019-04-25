@@ -134,7 +134,7 @@ def parse_post_from_json(content, post_id, dev="y"):
     # parse post string to get pics info
     posts_info = json.loads(c)
     pics = posts_info['detail']['post_data']['multi']
-    log(pics)
+    log(*pics)
 
     # collect pics info
     # for i, p in enumerate(pics):
