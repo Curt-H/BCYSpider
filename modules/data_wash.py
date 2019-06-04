@@ -89,28 +89,30 @@ def get_posts_from_json(content):
     return posts
 
 
-def save_pics_from_each_post(postlist, sleeptime=3):
+def get_pic_list_from_post(post, sleeptime=3):
     """
-
-    :param postlist: list, contains all coser posts obj
+    parse post object and return a pic list
+    :param post: list, contains all coser posts obj
     :param sleeptime: num, the sleep time between two download
-    :return: state code
+    :return:
     """
-    pl = postlist
+    p = post
 
-    for p in pl:
-        log(p.url)
-        content = get_content(p.url)
-        get_pics_from_json(content, p.id, sleeptime=sleeptime)
+    log(p.url)
+    content = get_content(p.url)
+    pic_list = parse_post_from_json(content, p.id)
+
+    for p in pic_list: log(p)
+
+    return pic_list
 
 
-def get_pics_from_json(content, post_id, dev="y", sleeptime=1):
+def parse_post_from_json(content, post_id, dev="y"):
     """
         parse content and return the pics list
     :param content: STRING html content of post page
     :param post_id: post id
     :param dev: dev mode switch
-    :param sleeptime: num, sleep time between two individual download
     :return: LIST contains the pics of post
     """
     c = content
@@ -127,22 +129,58 @@ def get_pics_from_json(content, post_id, dev="y", sleeptime=1):
     c = c.replace('\\\\u002F', '/')
     c = c.replace('\\\\u003F', '\\')
     # c = c.replace('\\\\u003F', '\\')
-    log(f'Get json string\n{c}')
-
-    # todo: remember to remove
+    # log(f'Get json string\n{c}')
 
     # parse post string to get pics info
     posts_info = json.loads(c)
     pics = posts_info['detail']['post_data']['multi']
-    log(posts_info['detail']['post_data']['multi'])
+    log(*pics)
 
-    # collect pics info and download it
-    for i, p in enumerate(pics):
-        url = p['original_path']
-        log(p['original_path'])
-        if dev == 'n':
-            cache_pic(url, pid, i)
-            log("cached pic!")
-            time.sleep(sleeptime)
+    # collect pics info
+    # for i, p in enumerate(pics):
+    #     pic_list = p['original_path']
+    #     log(p['original_path'])
+    #     if dev == 'n':
+    #         log("cached pic!")
 
-    return 0
+    return []
+# def parse_post_from_json(content, post_id, dev="y"):
+#     """
+#         parse content and return the pics list
+#     :param content: STRING html content of post page
+#     :param post_id: post id
+#     :param dev: dev mode switch
+#     :return: LIST contains the pics of post
+#     """
+#     c = content
+#     pid = post_id
+#
+#     # get the json string which contains posts information
+#     dell = c.find('("') + 2
+#     delr = c.find('")')
+#     c = c[dell:delr]
+#
+#     # remove the escape characters
+#     c = c.replace('\\"', '\"')
+#     # remove unicode char
+#     c = c.replace('\\\\u002F', '/')
+#     c = c.replace('\\\\u003F', '\\')
+#     # c = c.replace('\\\\u003F', '\\')
+#     log(f'Get json string\n{c}')
+#
+#     # todo: remember to remove
+#
+#     # parse post string to get pics info
+#     posts_info = json.loads(c)
+#     pics = posts_info['detail']['post_data']['multi']
+#     log(posts_info['detail']['post_data']['multi'])
+#
+#     # collect pics info and download it
+#     for i, p in enumerate(pics):
+#         url = p['original_path']
+#         log(p['original_path'])
+#         if dev == 'n':
+#             cache_pic(url, pid, i)
+#             log("cached pic!")
+#
+#     return 0

@@ -23,7 +23,7 @@ def get_content(url):
     if os.path.exists(path):
         with open(path, 'r', encoding='utf-8') as f:
             s = f.read()
-            log('Find Cache')
+            log(f'Find Cache at {path}')
             return s
     else:
         content = cache_url(u, fn)
