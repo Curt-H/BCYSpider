@@ -1,4 +1,6 @@
-from utils import load_str
+import os
+
+from utils import load_str, log
 
 
 def generate_headers():
@@ -8,7 +10,7 @@ def generate_headers():
 
     headers = {
         'user-agent': user_agent,
-        'Cookie':     cookies
+        'Cookie': cookies
     }
     return headers
 
@@ -22,6 +24,27 @@ def generate_coser_url(coser_id):
     c = coser_id
     return f'https://bcy.net/u/{c}/post'
 
+
 def generate_post_url(post_id):
     p = post_id
     return f'https://bcy.net/item/detail/{p}'
+
+
+def dump_file(filename: str, content, path, mode='w+'):
+    fname = '\\'.join([path, filename])
+    log(fname)
+    c = content
+
+    if check_if_path_exists(path) and filename.find('info') < 0:
+        mode = 'a+'
+    with open(fname, mode, encoding='utf-8-sig') as f:
+        f.write(c)
+
+
+def check_if_path_exists(path):
+    p = path
+    if not os.path.exists(p):
+        log('not exists')
+        os.makedirs(p)
+        return False
+    return True
