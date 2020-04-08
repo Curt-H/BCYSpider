@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
 
+from modules import dump_to_txt
+from modules.url_parse import url_parser
+from modules.washer_serial import get_items_info
 from utils import log
-# from modules import cache, login
-# from modules.following import get_following_list
 from modules.cache import get_content
-from modules.washer_star import get_actor_info
 
 # from requests import *
 
@@ -30,7 +30,11 @@ if __name__ == '__main__':
 
     # Catch url page and get the content
     for site in web_sites:
-        html_content = get_content(site.strip(), settings=SETTINGS)
-        # get_actor_info(html_content)
-
-        log(html_content)
+        task_info = dict()
+        task_info['url'] = site.strip()
+        task_info['type'], task_info['code'] = url_parser(task_info['url'])
+        task_info['html'] = get_content(task_info['url'], settings=SETTINGS)
+        result = get_items_info(task_info)
+        answer = dump_to_txt(result)
+        if answer == 0:
+            log('Finished')
